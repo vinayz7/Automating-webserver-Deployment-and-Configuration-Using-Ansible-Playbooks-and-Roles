@@ -1,0 +1,44 @@
+---
+- name: Install Apache web server
+  apt:
+    name: apache2
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Copy dynamic homepage using Jinja2 template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  become: yes
+
+- name: Start and enable Apache service
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Install Apache web server
+  apt:
+    name: apache2
+    state: present
+    update_cache: yes
+  become: yes
+  tags: apache
+
+- name: Copy dynamic homepage using Jinja2 template
+  template:
+    src: index.html.j2
+    dest: /var/www/html/index.html
+  become: yes
+  tags: apache
+
+- name: Start and enable Apache service
+  service:
+    name: apache2
+    state: started
+    enabled: yes
+  become: yes
+  tags: apache
+

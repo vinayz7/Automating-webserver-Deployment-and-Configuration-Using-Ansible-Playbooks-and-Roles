@@ -1,0 +1,27 @@
+---
+- name: Deploy and configure web servers
+  hosts: webservers
+  become: yes
+  vars_files:
+    - group_vars/all/vault.yml
+
+  tasks:
+    - name: Ping all nodes in webservers group
+      ping:
+
+    - name: Install curl
+      apt:
+        name: curl
+        state: present
+      become: yes
+
+    - name: Ensure custom index.html is visible on each server
+      uri:
+        url: "http://{{ inventory_hostname }}"
+        method: GET
+        return_content: yes
+      register: result
+
+    - name: Show result of curl
+      debug:
+        var: result.content
